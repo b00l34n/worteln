@@ -21,8 +21,25 @@ pub const AMOUNT_OF_TRYS: usize = 5;
  */
 pub fn string_analysis ( users_answer: &String, correct_answer: &String) -> (String, bool) {
 
-    // Placeholder
-    return (String::from("-----"), correct_answer.eq(users_answer));
+    let mut result_string : String = String::new(); 
+    let mut _index : usize = 0;
+    for current_user_char in users_answer.chars() {
+        match correct_answer.find(current_user_char) {
+            Some(n) => {
+                if n == _index {
+                    result_string.push(current_user_char); 
+                } else {
+                    result_string.push('o');
+                }
+            }
+            None => {
+                result_string.push('-');
+            } 
+        }
+        _index += 1;
+    }
+    let eql = correct_answer.eq(&result_string); 
+    return (result_string, eql);
 
 }
 
@@ -81,7 +98,7 @@ pub fn print_answer_block( a: &Vec<(String, String, bool)>, t: usize) {
             println!("{}", tup.0);
             print!("{}", tup.1);
             if tup.2 {
-                println!(" -> {}", tup.2);
+                println!(" -> DONE");
             } else {
                 println!();
             }
