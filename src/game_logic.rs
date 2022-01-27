@@ -23,26 +23,28 @@ pub fn string_analysis ( users_answer: &String, correct_answer: &String) -> (Str
 
     let mut result_string : String = String::new(); 
     let mut _index : usize = 0;
+
+    // The extra check at the begging is a fix for the Double Letter Bug
     for current_user_char in users_answer.chars() {
-        match correct_answer.find(current_user_char) {
-            Some(n) => {
-                if n == _index {
-                    result_string.push(current_user_char); 
-                } else {
+        // First check if the chars at _index are the same 
+        if correct_answer.as_str()[_index..(_index+1)].contains(current_user_char) {
+                    result_string.push(current_user_char);
+        } else {
+            // Then check if the char can be found anywhere else in the searchd word.
+            match correct_answer.find(current_user_char) {
+                Some(_n) => {
                     result_string.push('o');
                 }
+                None => {
+                    result_string.push('-');
+                } 
             }
-            None => {
-                result_string.push('-');
-            } 
         }
         _index += 1;
     }
     let eql = correct_answer.eq(&result_string); 
     return (result_string, eql);
-
 }
-
 /**
  * Reads the User Answer form StdIn, removes the linefeed and cuts it to size.
  * After that, it returns a uppercase coppy of the Input.
