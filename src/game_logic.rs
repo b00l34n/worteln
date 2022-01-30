@@ -1,6 +1,6 @@
 use std::io;
 
-const AMOUNT_OF_LETTERS: usize = 5;
+pub const AMOUNT_OF_LETTERS: usize = 5;
 
 pub const AMOUNT_OF_TRYS: usize = 5;
 

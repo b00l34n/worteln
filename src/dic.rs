@@ -37,3 +37,23 @@ pub fn get_list_of_words (number_of_letters : usize) -> (HashSet<String>, usize)
     return (set_of_words, word_count);
 }
 
+/**
+ * returns an arbitrary String from the set of Strings that is would
+ * be on the n'th position of an itterartor call.
+ *
+ * @dic: the String Set
+ * @n: the n'th possiotion
+ *
+ * @return: one of the Words in the set
+ */
+pub fn get_nth_word(dic: &HashSet<String>, n: usize) -> String {
+    
+    let mut dummy_rator = dic.iter();
+    let mut result = String::new();
+    
+    match dummy_rator.nth(n) {
+        Some(res) => result = res.to_string(),
+        None => result = String::from("\0"),
+    }
+    return result;
+}
