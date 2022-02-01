@@ -15,7 +15,7 @@ pub fn open_file(p: &str) -> File {
 
     match File::open(&path) {
         Err(reason) => panic!("couldn't open {}: {}", display, reason),
-        Ok(file) => return file,
+        Ok(file) => file,
     };
 }
 
@@ -29,9 +29,7 @@ pub fn read_file(mut f: File) -> String {
 
     match f.read_to_string(&mut buffer) {
         Err(reason) => panic!("couldn't read file: {}", reason),
-        Ok(..) => {
-            return buffer;
-        } 
+        Ok(..) => buffer,
     }
 }
 

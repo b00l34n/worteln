@@ -1,7 +1,6 @@
 use std::io;
 
 pub const AMOUNT_OF_LETTERS: usize = 5;
-
 pub const AMOUNT_OF_TRYS: usize = 5;
 
 /**
@@ -19,15 +18,15 @@ pub const AMOUNT_OF_TRYS: usize = 5;
  * @return: A tupple with a String that shows the the compare result and a boolean
  *          that indicates, if the Strings are equal.
  */
-pub fn string_analysis ( users_answer: &String, correct_answer: &String) -> (String, bool) {
+pub fn string_analysis ( users_answer: &str, correct_answer: &str) -> (String, bool) {
 
     let mut result_string : String = String::new(); 
     let mut _index : usize = 0;
 
     // The extra check at the begging is a fix for the Double Letter Bug
-    for current_user_char in users_answer.chars() {
+    for (_index, current_user_char) in users_answer.chars().enumerate() {
         // First check if the chars at _index are the same 
-        if correct_answer.as_str()[_index..(_index+1)].contains(current_user_char) {
+        if correct_answer[_index..(_index+1)].contains(current_user_char) {
                     result_string.push(current_user_char);
         } else {
             // Then check if the char can be found anywhere else in the searchd word.
@@ -40,10 +39,9 @@ pub fn string_analysis ( users_answer: &String, correct_answer: &String) -> (Str
                 } 
             }
         }
-        _index += 1;
     }
     let eql = correct_answer.eq(&result_string); 
-    return (result_string, eql);
+    (result_string, eql)
 }
 /**
  * Reads the User Answer form StdIn, removes the linefeed and cuts it to size.
@@ -55,13 +53,13 @@ pub fn user_input() -> String {
     let mut buffer = String::new();
     match io::stdin().read_line(&mut buffer){
         Ok(_n) => {
-            buffer.remove(buffer.find("\n").unwrap());
+            buffer.remove(buffer.find('\n').unwrap());
             buffer.truncate(AMOUNT_OF_LETTERS);
-            return buffer.to_ascii_uppercase(); 
+            buffer.to_ascii_uppercase() 
         }
         Err(_error) => {
             println!("Error while reading user Input"); 
-            return String::from("\0");
+            String::from("\0")
         } 
     }
 }
@@ -74,12 +72,10 @@ pub fn user_input() -> String {
 pub fn print_round_announcment(t : usize){
     if t == 0 {
         println!("Sie haben {} Versuche",AMOUNT_OF_TRYS);
-    } else {
-        if (AMOUNT_OF_TRYS - t) > 1 {
+    } else if (AMOUNT_OF_TRYS - t) > 1 {
             println!("Sie haben noch {} Versuche",AMOUNT_OF_TRYS - t);
-        } else {
+    } else {
             println!("Sie haben noch einen Versuche");
-        }
     }
 }
 
@@ -92,7 +88,7 @@ pub fn print_round_announcment(t : usize){
  *     equal.
  * @t: the amount tryes.
  */
-pub fn print_answer_block( a: &Vec<(String, String, bool)>, t: usize) {
+pub fn print_answer_block( a: &[(String, String, bool)], t: usize) {
         if t > 0 {
         println!("\nDeine Antworten waren:\n"); 
         for i in 0..t {

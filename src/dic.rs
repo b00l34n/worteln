@@ -34,7 +34,7 @@ pub fn get_list_of_words (number_of_letters : usize) -> (HashSet<String>, usize)
             word_count += 1;
         } 
     }
-    return (set_of_words, word_count);
+    (set_of_words, word_count)
 }
 
 /**
@@ -49,11 +49,11 @@ pub fn get_list_of_words (number_of_letters : usize) -> (HashSet<String>, usize)
 pub fn get_nth_word(dic: &HashSet<String>, n: usize) -> String {
     
     let mut dummy_rator = dic.iter();
-    let mut result = String::new();
+    let result: String;
     
     match dummy_rator.nth(n) {
         Some(res) => result = res.to_string(),
         None => result = String::from("\0"),
     }
-    return result;
+    result
 }

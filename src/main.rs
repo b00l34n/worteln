@@ -9,7 +9,7 @@ fn main() {
     println!("some words:");
 
     for c in 1..(dictionary.1) {
-        if (&dictionary.1 % c) == 5 {
+        if (dictionary.1 % c) == 5 {
             println!("{}", dic::get_nth_word(&dictionary.0, c));
         } 
     } 
