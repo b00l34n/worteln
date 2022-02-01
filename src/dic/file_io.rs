@@ -16,7 +16,7 @@ pub fn open_file(p: &str) -> File {
     match File::open(&path) {
         Err(reason) => panic!("couldn't open {}: {}", display, reason),
         Ok(file) => file,
-    }    
+    }
 }
 
 /**
