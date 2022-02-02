@@ -22,7 +22,12 @@ pub fn string_analysis ( users_answer: &str, correct_answer: &str) -> (String, b
     
     //TODO: If doubleletters are given but the letter appears only once in the searched word
     //      then only one of them will be marked as "in the word" instead of both.
-
+    //      Exaple:
+    //              User Input: COOLS
+    //              Analyisi:   -O--o
+    //        
+    //      The because the searched word doesn't have a second 'O' in it, the second 'O' in
+    //      the user input will be marked as "not in the word" as well.
     let mut result_string : String = String::new(); 
     let mut _index : usize = 0;
 
