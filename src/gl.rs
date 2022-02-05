@@ -11,38 +11,50 @@ pub const AMOUNT_OF_TRYS: usize = 5;
  *     Letter not in the word:    '-'
  *     Letter in the word:        'o'
  *     Letter in the right place: The letter itself
- * 
+ *
  * @users_answer: a borrowed String that contains what will be compared with the
  *                searched word.
  * @correct_answer: a borrowed String containing the searched word.
+ * 
  * @return: A tupple with a String that shows the the compare result and a boolean
  *          that indicates, if the Strings are equal.
  */
 pub fn string_analysis ( users_answer: &str, correct_answer: &str) -> (String, bool) {
-
+    
+    //TODO: If doubleletters are given but the letter appears only once in the searched word
+    //      then only one of them will be marked as "in the word" instead of both.
+    //      Exaple:
+    //              User Input: COOLS
+    //              Analyisi:   -O--o
+    //        
+    //      The because the searched word doesn't have a second 'O' in it, the second 'O' in
+    //      the user input will be marked as "not in the word" as well.
     let mut result_string : String = String::new(); 
     let mut _index : usize = 0;
 
-    // The extra check at the begging is a fix for the Double Letter Bug
-    for (_index, current_user_char) in users_answer.chars().enumerate() {
-        // First check if the chars at _index are the same 
-        if correct_answer[_index..(_index+1)].contains(current_user_char) {
-                    result_string.push(current_user_char);
-        } else {
-            // Then check if the char can be found anywhere else in the searchd word.
-            match correct_answer.find(current_user_char) {
-                Some(_n) => {
-                    result_string.push('o');
+    if users_answer.len() == AMOUNT_OF_LETTERS {
+        // The extra check at the begging is a fix for the Double Letter Bug
+        for (_index, current_user_char) in users_answer.chars().enumerate() {
+            // First check if the chars at _index are the same 
+            if correct_answer[_index..(_index+1)].contains(current_user_char) {
+                        result_string.push(current_user_char);
+            } else {
+                // Then check if the char can be found anywhere else in the searchd word.
+                match correct_answer.find(current_user_char) {
+                    Some(_n) => {
+                        result_string.push('o');
+                    }
+                    None => {
+                        result_string.push('-');
+                    } 
                 }
-                None => {
-                    result_string.push('-');
-                } 
-            }
+             }
         }
     }
     let eql = correct_answer.eq(&result_string); 
     (result_string, eql)
 }
+
 /**
  * Reads the User Answer form StdIn, removes the linefeed and cuts it to size.
  * After that, it returns a uppercase coppy of the Input.
