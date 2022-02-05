@@ -32,6 +32,8 @@ fn main() {
             answer = game_logic::user_input();
             if dic::is_a_word(&answer, &dictionary) {
                 break;
+            } else {
+                println!("{} is not a word", answer);
             } 
         } 
    
