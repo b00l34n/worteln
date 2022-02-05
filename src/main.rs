@@ -3,15 +3,17 @@ use rand::Rng;
 mod game_logic;
 mod dic;
 
+const PATH_TO_DIC: &str = "./misc/de_DE.dic";
+
 fn main() {
     // Get the modifierd dictionary read
-    let dictionary = dic::get_list_of_words(game_logic::AMOUNT_OF_LETTERS);
+    let dictionary = dic::new(PATH_TO_DIC, game_logic::AMOUNT_OF_LETTERS);
     
     // Get a random number for the word to guess 
-    let random_number = rand::thread_rng().gen_range(0..(dictionary.1) - 1); 
+    let random_number = rand::thread_rng().gen_range(0..(dictionary.word_count) - 1); 
    
     // A random word from the dictionary
-    let word_to_guess: String = dic::get_nth_word(&dictionary.0,random_number); 
+    let word_to_guess: String = dic::get_nth_word(dictionary,random_number); 
  
     // init the accumulator vector for all user answer
     let mut user_answers: Vec<(String, String, bool)>
