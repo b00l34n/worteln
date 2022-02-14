@@ -20,8 +20,9 @@ pub const AMOUNT_OF_TRYS: usize = 5;
  *          that indicates, if the Strings are equal.
  */
 pub fn string_analysis ( users_answer: &str, correct_answer: &str) -> (String, bool) {
-    
-    //TODO: If doubleletters are given but the letter appears only once in the searched word
+   
+    // TODO: Word Analysis
+    //      If doubleletters are given but the letter appears only once in the searched word
     //      then only one of them will be marked as "in the word" instead of both.
     //      Exaple:
     //              User Input: COOLS
