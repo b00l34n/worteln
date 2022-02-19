@@ -14,6 +14,9 @@ fn main() {
    
     // A random word from the dictionary
     let word_to_guess: String = dic::get_nth_word(&dictionary,random_number); 
+
+    // Create the Answer Struct for the game logic
+    let answ: gl::Answer = gl::Answer::new(word_to_guess);
  
     // init the accumulator vector for all user answer
     let mut user_answers: Vec<(String, String, bool)>
@@ -37,7 +40,7 @@ fn main() {
             } 
         } 
    
-        let analyzed_answer = gl::string_analysis(&answer,&word_to_guess);
+        let analyzed_answer = gl::string_analysis(&answer,&answ);
         
         // store user intput string in vector
         let this_rounds_answer = (answer,analyzed_answer.0,analyzed_answer.1);
@@ -45,6 +48,6 @@ fn main() {
         
     } 
     gl::print_answer_block(&user_answers, gl::AMOUNT_OF_TRYS);
-    println!("{}",word_to_guess);
+    println!("{}",answ.word);
 }
 

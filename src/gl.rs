@@ -19,19 +19,18 @@ impl Statistic {
 */
 
 
-struct Answer {
+pub struct Answer {
     word: String,
     statistic: HashMap<char, usize>,      
 } 
 impl Answer {
-
+    // TODO: get method for fields  
     pub fn new(word: String) -> Self {
         Self {
            word,
            statistic: gen_stat(&word), 
         }
     }
-
 }
 
 /**
@@ -53,7 +52,9 @@ fn gen_stat (w: &String) -> HashMap<char, usize> {
         match stat.get(&c) {
             Some(v) => { 
                 // If the char was alread found at least once,
-                // increase the value at the char by one 
+                // increase the value at the char by one
+                // TODO: fix the removeal while iterating...
+                //       You dunce! You know that you musn't do that!
                 stat.remove(&c);
                 stat.insert(c, v + 1);
             }
@@ -84,7 +85,7 @@ fn gen_stat (w: &String) -> HashMap<char, usize> {
  * @return: A tupple with a String that shows the the compare result and a boolean
  *          that indicates, if the Strings are equal.
  */
-pub fn string_analysis ( users_answer: &str, correct_answer: &str) -> (String, bool) {
+pub fn string_analysis ( users_answer: &str, correct_answer: &Answer) -> (String, bool) {
    
     // TODO: Word Analysis
     //      If doubleletters are given but the letter appears only once in the searched word
@@ -98,15 +99,21 @@ pub fn string_analysis ( users_answer: &str, correct_answer: &str) -> (String, b
     let mut result_string : String = String::new(); 
     let mut _index : usize = 0;
 
+    
     if users_answer.len() == AMOUNT_OF_LETTERS {
+   
         // The extra check at the begging is a fix for the Double Letter Bug
         for (_index, current_user_char) in users_answer.chars().enumerate() {
+   
             // First check if the chars at _index are the same 
-            if correct_answer[_index..(_index+1)].contains(current_user_char) {
-                        result_string.push(current_user_char);
+            if correct_answer.word[_index..(_index+1)].contains(current_user_char) {
+
+                result_string.push(current_user_char);
+
             } else {
+             
                 // Then check if the char can be found anywhere else in the searchd word.
-                match correct_answer.find(current_user_char) {
+                match correct_answer.word.find(current_user_char) {
                     Some(_n) => {
                         result_string.push('o');
                     }
@@ -114,10 +121,11 @@ pub fn string_analysis ( users_answer: &str, correct_answer: &str) -> (String, b
                         result_string.push('-');
                     } 
                 }
-             }
+            
+            }
         }
     }
-    let eql = correct_answer.eq(&result_string); 
+    let eql = correct_answer.word.eq(&result_string); 
     (result_string, eql)
 }
 
