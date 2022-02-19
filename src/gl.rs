@@ -1,7 +1,72 @@
 use std::io;
+use std::collections::HashMap;
 
 pub const AMOUNT_OF_LETTERS: usize = 5;
 pub const AMOUNT_OF_TRYS: usize = 5;
+
+/*
+struct Statistic {
+    values : HashMap<char, usize>,
+}
+impl Statistic {
+    pub fn new() -> Self {
+        let v: HashMap<char, usize> = HashMap::new();
+        Self {
+            values: v,
+        }
+    }
+} 
+*/
+
+
+struct Answer {
+    word: String,
+    statistic: HashMap<char, usize>,      
+} 
+impl Answer {
+
+    pub fn new(word: String) -> Self {
+        Self {
+           word,
+           statistic: gen_stat(&word), 
+        }
+    }
+
+}
+
+/**
+ * this is a helper mehtod to collect statistical data of a given string.
+ * It counts the amounts of every character and puts the value in a hash
+ * map with the keys being the corosponding chars.
+ * This method is meant for the initialization of the Answer Struct.
+ *
+ * @w: a referce to the string that is supposed to be analysed
+ *
+ * @return: the hashmap containing the statistical data about the string 
+ */
+fn gen_stat (w: &String) -> HashMap<char, usize> {
+    let mut stat : HashMap<char, usize> = HashMap::new();
+    
+    // Go through every char in the word
+    for c in w.chars() {
+        
+        match stat.get(&c) {
+            Some(v) => { 
+                // If the char was alread found at least once,
+                // increase the value at the char by one 
+                stat.remove(&c);
+                stat.insert(c, v + 1);
+            }
+            None => {
+                // If the char is not yet in the statistic
+                // create a new entry with the value 1
+                stat.insert(c, 1);
+            }
+        } 
+    }
+    stat
+}
+
 
 /**
  * this method takes the users answer and compares it with the Word that
